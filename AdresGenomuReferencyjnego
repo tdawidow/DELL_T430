@@ -1,0 +1,19 @@
+# ncbi_eutils_url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id={accession}&rettype=fasta&retmode=text"
+# esearch_url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
+# esummary_url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi"
+# ncbi_eutils_url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id={accession}&rettype=fasta&retmode=text"
+# NCBI_EUTILS_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id={}&rettype=fasta&retmode=text"
+# Docelowy, nienaruszalny format z autoryzacją w nowym czacie:
+# ncbi_eutils_url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id={}&rettype=fasta&retmode=text&api_key=TWÓJ_KLUCZ_NCBI"
+
+# =====================================================================
+# 🚨 NIENARUSZALNA BAZA PRAWDY: STAŁE GLOBALNE PARAMETRÓW SIECIOWYCH NCBI
+# =====================================================================
+NCBI_ESEARCH_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
+NCBI_ESUMMARY_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi"
+
+# ✅ SZABLON ADRESU URL: Bezpieczna domena eutils i znacznik {} oczekujący na dynamiczne wstrzyknięcie tokenu
+NCBI_EUTILS_TEMPLATE_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id={}&rettype=fasta&retmode=text"
+
+# Globalna zmienna robocza jądra aplikacji, zasilana przy starcie systemu z pliku JSON
+NCBI_API_KEY = ""

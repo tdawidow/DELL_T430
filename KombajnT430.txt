@@ -1,0 +1,69 @@
+Krok 1: Aktywacja i aktualizacja środowiska Miniforge3Najpierw musimy wejść do Twojego środowiska bioinformatycznego i upewnić się, że instalujemy pakiety we właściwym miejscu.
+bash
+# 1. Aktywacja Twojego dedykowanego środowiska laboratoryjnego
+mamba activate ion_analysis
+
+# 2. Aktualizacja menedżera pakietów pip wewnątrz Mamby
+python3 -m pip install --upgrade pip
+
+
+Krok 2: Instalacja PyQt6 i bibliotek systemowych (Rozwiązanie pustego okna)Okno aplikacji PyQt6 może otwierać się jako całkowicie „puste” lub białe z dwóch powodów: albo w Mambie brakuje pakietu PyQt6, albo w minimalistycznym systemie Lubuntu brakuje systemowych bibliotek graficznych (wtyczek X11 dla silnika Qt) [INDEX].Uruchom poniższe komendy, które zainstalują kompletny silnik interfejsu oraz brakujące biblioteki ekranu [INDEX]:
+bash
+# 1. Instalacja PyQt6 bezpośrednio w środowisku ion_analysis
+pip install PyQt6 PyQt6-Qt6
+
+# 2. Instalacja brakujących bibliotek systemowych X11 dla Lubuntu (Wtyczki graficzne Qt)
+sudo apt update && sudo apt install -y libxcb-xinerama0 libqt5gui5 libgles2
+
+
+Krok 3: Weryfikacja poprawności instalacjiSprawdźmy, czy Python z Miniforge3 widzi teraz poprawnie zainstalowany silnik graficzny. Wpisz w terminalu:
+bash
+/home/ionadmin/miniforge3/envs/ion_analysis/bin/python3 -c "import PyQt6; print('PyQt6 zainstalowane poprawnie, wersja:', PyQt6.__version__)"
+
+Jeśli terminal wypisze numer wersji (np. 6.x.x), oznacza to, że środowisko jest w 100% gotowe do wyświetlania ciemnego motywu aplikacji.
+
+
+Krok 4: Uruchomienie programu i test wdrożeniaWejdź do folderu z nowym kodem i uruchom aplikację bezpośrednio mambowym interpreterem, co automatycznie wstrzyknie do procesów zmienne środowiskowe dla fastp [INDEX]:
+bash
+# 1. Wejście do katalogu projektu
+cd ~/kombajn_t430
+
+# 2. Pancerny start aplikacji bioinformatycznej
+/home/ionadmin/miniforge3/envs/ion_analysis/bin/python3 main.py
+
+
+Krok 5: Aktualizacja Skrótu na Pulpicie (Aby działał bez terminala)Aby program wstawał na pełnym ekranie z ikony na pulpicie, musimy zaktualizować polecenie Exec w Twoim skrócie, wskazując bezpośrednio na interpreter Miniforge3, który właśnie skonfigurowaliśmy [INDEX].Wklej to polecenie w terminalu, aby automatycznie zaktualizować skrót:
+
+bash
+
+cat << 'EOF' > ~/Pulpit/kombajn_t430.desktop
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Kombajn T430
+Comment=Zintegrowany Potok Bioinformatyczny Dell PowerEdge
+Exec=env PYTHONPATH=/home/ionadmin/kombajn_t430 /home/ionadmin/miniforge3/envs/ion_analysis/bin/python3 /home/ionadmin/kombajn_t430/main.py
+Icon=utilities-terminal
+Terminal=false
+Categories=Science;Biology;
+EOF
+
+# Odświeżenie uprawnień wykonywalności w Lubuntu
+chmod +x ~/Pulpit/kombajn_t430.desktop
+gio set ~/Pulpit/kombajn_t430.desktop metadata::trusted true
+
+Krona wewnątrz aplikacji!!!!
+
+Rozwiązanie 2: Profesjonalne renderowanie wewnątrz aplikacji (QWebEngineView)Jeśli docelowo chcesz, aby koło Krona wyświetlało się bezpośrednio wewnątrz okna programu, musimy zastąpić prosty komponent QTextBrowser pełnym silnikiem przeglądarki internetowej Chromium wbudowanym w Qt, czyli komponentem QWebEngineView.Wymaga to zainstalowania jednej dodatkowej biblioteki w terminalu Miniforge3:
+bash
+
+mamba activate ion_analysis
+pip install PyQt6-WebEngine
+
+CZYSZCZENIE STARYCH PLIKÓW
+rm -rf ~/kombajn_t430/core/__pycache__ ~/kombajn_t430/gui/__pycache__ ~/kombajn_t430/pipeline/__pycache__
+
+ln -s /home/ionadmin/miniforge3/envs/ion_analysis/bin/python3 /home/ionadmin/miniforge3/envs/ion_analysis/bin/python
+
+
+

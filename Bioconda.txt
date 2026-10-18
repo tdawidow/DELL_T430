@@ -1,0 +1,52 @@
+Instalacja bioconda
+
+#Instalacja oprogramowanie bioconda
+
+sudo apt update && sudo apt dist-upgrade -y
+sudo apt install curl tcl tk extlinux libvulkan1 -y
+
+# Instalacja wsparcia dla GUI w Pythonie dla systemu Ubuntu/Lubuntu
+sudo apt update
+sudo apt install python3-tk -y
+
+wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+chmod +x Miniforge3-Linux-x86_64.sh
+bash Miniforge3-Linux-x86_64.sh
+
+ZAKMKNAC I OTWORZYC TERMINAL (base) !!!
+
+conda config --add channels defaults
+conda config --add channels bioconda
+conda config --add channels conda-forge
+conda config --set channel_priority strict
+
+mamba create -n ion_analysis -c conda-forge -c bioconda python=3.13 flye bracken ivar kraken2 minimap2 samtools spades krakentools krona fastp psutil -y
+mamba activate ion_analysis
+
+mamba install -c bioconda kraken2 krakentools -y
+
+Krok 1: Instalacja QUAST
+Przed aktualizacją kodu, otwórz terminal (QTerminal) w środowisku ion_analysis i doinstaluj brakujące narzędzie:
+
+mamba activate ion_analysis
+mamba install -c bioconda quast -y
+mamba install -c bioconda mummer4 gnuplot -y
+mamba install -c bioconda blast -y
+
+RESTART ŚRODOWISKA
+mamba create -n ion_analysis python=3.10 tk psutil -c conda-forge -y
+mamba activate ion_analysis
+mamba install fastp kraken2 krakentools krona spades flye quast blast mummer gnuplot -c bioconda -c conda-forge -y
+
+
+Środowisko mummer4_env:
+
+conda create -n mummer4_env -c bioconda mummer4=4.0.1 -y - NIE ROBIĆ
+
+conda env remove -n mummer4_env -y = czyszczenie bufora 
+
+conda create -n mummer4_env -c bioconda mummer4=4.0.0rc1 -y - TO URUCHAMIAMY :-)
+
+Instalacja seqkit
+conda activate ion_analysis
+mamba install -y -c bioconda seqkit
